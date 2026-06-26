@@ -19,13 +19,12 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Configure Artifactory NuGet source (DDE auth)
+      - name: Generate nuget.config with Artifactory credentials (DDE auth pattern)
+        shell: pwsh
         run: |
-          dotnet nuget update source rbwcwh-nuget-virtual \
-            --username "${{ secrets.ARTIFACTORY_USER }}" \
-            --password "${{ secrets.ARTIFACTORY_TOKEN }}" \
-            --store-password-in-clear-text \
-            --configfile nuget.config
+          ./Create-NugetConfig.ps1 `
+            -Username "${{ secrets.ARTIFACTORY_USER }}" `
+            -Password "${{ secrets.ARTIFACTORY_TOKEN }}"
 
       - name: Restore dependencies
         run: dotnet restore
