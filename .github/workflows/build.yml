@@ -19,6 +19,14 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Configure Artifactory NuGet source (DDE auth)
+        run: |
+          dotnet nuget update source rbwcwh-nuget-virtual \
+            --username "${{ secrets.ARTIFACTORY_USER }}" \
+            --password "${{ secrets.ARTIFACTORY_TOKEN }}" \
+            --store-password-in-clear-text \
+            --configfile nuget.config
+
       - name: Restore dependencies
         run: dotnet restore
 
